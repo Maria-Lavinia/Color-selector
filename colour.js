@@ -102,11 +102,11 @@ function showHSL(object) {
   l *= 100;
 
   console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
-  displayHSL(object);
+  displayHSL(h, s, l);
 }
 
-function displayHSL(object) {
+function displayHSL(h, s, l) {
   let hslInput = document.querySelector("#hsl");
-  let color = Math.floor(object.r) + " " + Math.floor(object.g) + " " + Math.floor(object.b);
-  hslInput.value = color;
+  let colors = Math.floor(h) + " " + Math.floor(s) + " " + Math.floor(l);
+  hslInput.value = colors;
 }
