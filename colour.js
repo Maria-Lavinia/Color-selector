@@ -1,23 +1,29 @@
 "use strict";
 
-let colorInput = document.querySelector("#color");
-let hexInput = document.querySelector("#hex");
-// let rgbInput = document.querySelector("#rgb");
+window.addEventListener("DOMContentLoaded", start);
+function start() {
+  selectHex();
+}
+function selectHex() {
+  let colorInput = document.querySelector("#color");
+  let hexInput = document.querySelector("#hex");
+  // let rgbInput = document.querySelector("#rgb");
 
-colorInput.addEventListener("input", () => {
-  let color = colorInput.value;
-  hexInput.value = color;
+  colorInput.addEventListener("input", () => {
+    let color = colorInput.value;
+    hexInput.value = color;
 
-  document.querySelector("h1").style.color = color;
+    document.querySelector("h1").style.color = color;
 
-  splitcolor(color2);
-});
+    splitcolor(color);
+  });
+}
 
-const color2 = document.querySelector("#hex").value;
-splitcolor(color2);
+// const color2 = document.querySelector("#hex").value;
+// splitcolor(color2);
 
-function splitcolor(color2) {
-  let array = color2.split("");
+function splitcolor(color) {
+  let array = color.split("");
   let splitColors = getletters(array);
   splitColorInRGB(splitColors);
 }
@@ -41,62 +47,66 @@ function splitColorInRGB(splitColors) {
   let blue = parseInt(splitColors.blue, 16);
   // console.log("Blue hex is: " + blue);
 
-  const object = {
+  const Colors = {
     r: `${red}`,
     g: `${green}`,
     b: `${blue}`,
   };
-  console.log(object);
-  displayRGB(object);
-  //   displayHSL(r, g, b);
+  console.log(Colors);
+  displayRGB(Colors);
+  showHSL(Colors);
 }
+
+//   displayHSL(r, g, b);
 function displayRGB(object) {
-  document.querySelector("#rgb").textContent = `${object.r}, ${object.g}, ${object.b}`;
-  // let rgbInput = document.querySelector("#rgb");
-  // let colors = object.r + " " + object.g + " " + object.b;
-  // rgbInput.value = colors;
+  // document.querySelector("#rgb").textContent = `${object.r}, ${object.g}, ${object.b}`;
+  let rgbInput = document.querySelector("#rgb");
+  let color = object.r + " " + object.g + " " + object.b;
+  rgbInput.value = color;
   // displayHSL(r, g, b);
 }
-// function displayHSL(r, g, b) {
-//   r /= 255;
-//   g /= 255;
-//   b /= 255;
 
-//   let h, s, l;
+function showHSL(object) {
+  let r = object.r / 255;
+  let g = object.g / 255;
+  let b = object.b / 255;
 
-//   const min = Math.min(r, g, b);
-//   const max = Math.max(r, g, b);
+  let h, s, l;
 
-//   if (max === min) {
-//     h = 0;
-//   } else if (max === r) {
-//     h = 60 * (0 + (g - b) / (max - min));
-//   } else if (max === g) {
-//     h = 60 * (2 + (b - r) / (max - min));
-//   } else if (max === b) {
-//     h = 60 * (4 + (r - g) / (max - min));
-//   }
+  const min = Math.min(r, g, b);
+  const max = Math.max(r, g, b);
 
-//   if (h < 0) {
-//     h = h + 360;
-//   }
+  if (max === min) {
+    h = 0;
+  } else if (max === r) {
+    h = 60 * (0 + (g - b) / (max - min));
+  } else if (max === g) {
+    h = 60 * (2 + (b - r) / (max - min));
+  } else if (max === b) {
+    h = 60 * (4 + (r - g) / (max - min));
+  }
 
-//   l = (min + max) / 2;
+  if (h < 0) {
+    h = h + 360;
+  }
 
-//   if (max === 0 || min === 1) {
-//     s = 0;
-//   } else {
-//     s = (max - l) / Math.min(l, 1 - l);
-//   }
-//   // multiply s and l by 100 to get the value in percent, rather than [0,1]
-//   s *= 100;
-//   l *= 100;
+  l = (min + max) / 2;
 
-//   console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
-//   showHSL(h, s, l);
-// }
+  if (max === 0 || min === 1) {
+    s = 0;
+  } else {
+    s = (max - l) / Math.min(l, 1 - l);
+  }
+  // multiply s and l by 100 to get the value in percent, rather than [0,1]
+  s *= 100;
+  l *= 100;
 
-// function showHSL(h, s, l) {
-//   const hsl = document.getElementById("hsl");
-//   hsl.textContent = `H: ${h} S: ${s} L: ${l}`;
-// }
+  console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
+  displayHSL(object);
+}
+
+function displayHSL(object) {
+  let hslInput = document.querySelector("#hsl");
+  let color = Math.floor(object.r) + " " + Math.floor(object.g) + " " + Math.floor(object.b);
+  hslInput.value = color;
+}
